@@ -64,23 +64,21 @@
 
         $.getJSON(`http://omdbapi.com/?s=${inputval}`, function(data) {
             var blah = data.Search.map(function(inputdata) {
+
                 var newobj = {};
                 newobj.id = inputdata.imdbID;
                 newobj.poster = inputdata.Poster;
                 newobj.title = inputdata.Title;
                 newobj.year = inputdata.Year;
-                movies.push(newobj);
+
+                $.getJSON('http://omdbapi.com/?i=' + newobj.id, function(datatwo) {
+                    newobj.plot = datatwo.Plot;
+                    movies.push(newobj);
+
+                renderMovies();
+                });
             });
-          renderMovies();
         });
     });
-
-
-
-
-
-
-
-
 
 })();
